@@ -23,30 +23,26 @@ async def start_message(message: Message) -> None:
 @dp.message()
 async def another_message(message: Message | InputFile) -> None:
     ans = {"hello": "Hi", "hi": "Hi", "howareyou?":"I'm good!"}
+    
+    try:
+        if message.text:
 
-    if message.text:
-
-        msg = str(message.text).lower().replace(' ', '')
-        try:
+            msg = str(message.text).lower().replace(' ', '')
             if msg in ans:
                 await message.answer(ans[msg])
             else:
                 await message.answer("I can't understand you :(")
-        except:
-            await message.answer("WRONG!!! 0_0-_0-_-0_-")
-    
-    if message.photo:
-        
-        try:
-            await message.answer_photo(photo=FSInputFile('222.jpg', filename='telegram'), caption='This telegram!')
-        except:
-            await message.answer("WRONG!!! 0_0-_0-_-0_-")
 
-    if message.sticker:
-        try:
+        
+        if message.photo:
+            
+            await message.answer_photo(photo=FSInputFile('222.jpg', filename='telegram'), caption='This telegram!')
+
+        if message.sticker:
             await message.answer('😍')
-        except:
-            await message.answer("WRONG!!! 0_0-_0-_-0_-")
+
+    except:
+        await message.answer("WRONG!!! 0_0-_0-_-0_-")
 
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
